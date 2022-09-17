@@ -6,9 +6,13 @@ using System.Threading.Tasks;
 
 namespace ModDBMS.SMQL.Models
 {
-    public class SmqlCommand
+    public enum SmqlOperationType
     {
-        public SmqlActionData ActionData;
-        public SmqlPredicate? Predicate;
+        Read,
+        Insert,
+        Update,
+        Delete,
+        Command,
     }
+
 }

@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace ModDBMS.SMQL.Models
 {
-    public struct SmqlAction
+    public class SmqlActionData
     {
         public Type ActionType;
-
-
 
         public enum Type
         {
@@ -21,9 +19,38 @@ namespace ModDBMS.SMQL.Models
         }
     }
 
-    public struct ReadAction
+    public sealed class ReadActionData : SmqlActionData
     {
-        public string[] Fields;
+        public IEnumerable<string> Fields;
+    }
 
+    public sealed class InsertActionData : SmqlActionData
+    {
+
+    }
+
+    public sealed class UpdateActionData : SmqlActionData
+    {
+
+    }
+
+    public sealed class DeleteActionData : SmqlActionData 
+    {
+
+    }
+
+    public sealed class ResultOutputOptions
+    {
+        public IEnumerable<OutputRequest> Outputs;
+
+        public sealed class OutputRequest
+        {
+
+            public enum Type
+            {
+                Inserted,
+                Deleted,
+            }
+        }
     }
 }

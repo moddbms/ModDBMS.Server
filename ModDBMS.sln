@@ -5,11 +5,13 @@ VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModDBMS", "ModDBMS\ModDBMS.csproj", "{51073CA4-94D6-4ACF-932E-D2B67BF01B88}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tdx.Net", "Tdx.Net\Tdx.Net.csproj", "{BE65BFBC-A80F-4DC6-84FA-ADCD3C081D96}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tdx.Net", "Tdx.Net\Tdx.Net.csproj", "{BE65BFBC-A80F-4DC6-84FA-ADCD3C081D96}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModDBMS.BlitzEngine", "ModDBMS.BlitzEngine\ModDBMS.BlitzEngine.csproj", "{3F0231B1-59E8-43A4-BE55-B0C485C203DB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModDBMS.BlitzEngine", "ModDBMS.BlitzEngine\ModDBMS.BlitzEngine.csproj", "{3F0231B1-59E8-43A4-BE55-B0C485C203DB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModDBMS.SMQL", "ModDBMS.SMQL\ModDBMS.SMQL.csproj", "{8ADD018A-051D-4E96-9EFE-D6C958938CF5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModDBMS.SMQL", "ModDBMS.SMQL\ModDBMS.SMQL.csproj", "{8ADD018A-051D-4E96-9EFE-D6C958938CF5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BenchmarksTester", "BenchmarksTester\BenchmarksTester.csproj", "{2F60FBE8-7687-47D8-8CAE-5A416126EC1C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{8ADD018A-051D-4E96-9EFE-D6C958938CF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8ADD018A-051D-4E96-9EFE-D6C958938CF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8ADD018A-051D-4E96-9EFE-D6C958938CF5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F60FBE8-7687-47D8-8CAE-5A416126EC1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F60FBE8-7687-47D8-8CAE-5A416126EC1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F60FBE8-7687-47D8-8CAE-5A416126EC1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F60FBE8-7687-47D8-8CAE-5A416126EC1C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
