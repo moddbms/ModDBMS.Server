@@ -8,5 +8,7 @@ namespace Tdx.Net.Models
 {
     internal class TdxDocument
     {
+        public Dictionary<string, TdxProperty> Properties;
+
     }
 }

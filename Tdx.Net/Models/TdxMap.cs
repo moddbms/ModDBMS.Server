@@ -8,5 +8,12 @@ namespace Tdx.Net.Models
 {
     internal class TdxMap
     {
+        public Dictionary<string, TdxMapData> MapData;
+    }
+
+    public class TdxMapData
+    {
+        public string Key;
+        public ushort KeyId;
     }
 }
