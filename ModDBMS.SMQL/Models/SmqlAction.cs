@@ -22,7 +22,7 @@ namespace ModDBMS.SMQL.Models
 
     public sealed class ReadActionData : SmqlActionData
     {
-        public IEnumerable<string> Fields;
+        public List<string> PropertyNames;
     }
 
     public sealed class InsertActionData : SmqlActionData
