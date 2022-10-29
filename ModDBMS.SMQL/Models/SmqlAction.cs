@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tdx.Net.Models;
 
 namespace ModDBMS.SMQL.Models
 {
@@ -26,12 +27,12 @@ namespace ModDBMS.SMQL.Models
 
     public sealed class InsertActionData : SmqlActionData
     {
-
+        
+        public List<TdxDocument> Documents;
     }
 
     public sealed class UpdateActionData : SmqlActionData
     {
-
     }
 
     public sealed class DeleteActionData : SmqlActionData 

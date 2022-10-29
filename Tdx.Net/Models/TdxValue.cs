@@ -6,19 +6,30 @@ using System.Threading.Tasks;
 
 namespace Tdx.Net.Models
 {
-    public class TdxValue
+    public abstract class TdxValue
     {
         public TdxType Type;
     }
 
-    public class TdxGuidValue : TdxValue
+    public sealed class TdxGuidValue : TdxValue
     {
         public Guid Value;
     }
-
-    public class TdxStringValue : TdxValue
+    public sealed class TdxStringValue : TdxValue
     {
         public string Value;
         public Encoding Encoding = Encoding.Unicode;
     }
+
+    public sealed class TdxBoolValue : TdxValue
+    {
+
+    }
+
+    public sealed class TdxInt32Value : TdxValue
+    {
+        public int Value;
+    }
+
+
 }
