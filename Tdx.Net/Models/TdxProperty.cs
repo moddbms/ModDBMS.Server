@@ -9,7 +9,7 @@ namespace Tdx.Net.Models
     public class TdxProperty
     {
         public string Name;
-        public ushort MapName;
+        public ushort? MapName = null;
         public TdxValue Value;
     }
 }
