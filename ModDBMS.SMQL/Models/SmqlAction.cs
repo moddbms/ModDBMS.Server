@@ -33,6 +33,7 @@ namespace ModDBMS.SMQL.Models
 
     public sealed class UpdateActionData : SmqlActionData
     {
+
     }
 
     public sealed class DeleteActionData : SmqlActionData 
@@ -42,7 +43,7 @@ namespace ModDBMS.SMQL.Models
 
     public sealed class ResultOutputOptions
     {
-        public IEnumerable<OutputRequest> Outputs;
+        public List<OutputRequest> Outputs;
 
         public sealed class OutputRequest
         {
