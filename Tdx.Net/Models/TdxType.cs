@@ -12,9 +12,19 @@ namespace Tdx.Net.Models
         String,
         Bool,
         Int16,
+        UInt16,
         Int32,
+        UInt32,
         Int64,
+        UInt64,
+        /// <summary>
+        /// Stored as an ASCII string
+        /// </summary>
         Int128,
+        /// <summary>
+        /// Stored as an ASCII string
+        /// </summary>
+        UInt128,
         Float32,
         Float64,
         ScientificNumber,

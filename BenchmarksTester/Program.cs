@@ -6,9 +6,16 @@ namespace BenchmarksTester
 {
     internal class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
-            BenchmarkRunner.Run<BenchTasks>();
+            int test = int.MaxValue;
+
+            BitConverter.GetBytes(test).ToList().ForEach(x => Console.Write(x + ","));
+            //Console.WriteLine();
+
+            await Task.Delay(-1);
+
+            //BenchmarkRunner.Run<BenchTasks>();
         }
     }
 
