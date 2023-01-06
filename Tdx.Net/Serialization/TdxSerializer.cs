@@ -7,9 +7,9 @@ using Tdx.Net.Models;
 
 namespace Tdx.Net.Serialization
 {
-    public class TdxSerializer
+    public static class TdxSerializer
     {
-        public List<byte> SerializeDocument(TdxDocument document, TdxMap map)
+        public static List<byte> SerializeDocument(TdxDocument document, TdxMap map)
         {
             var endBytes = new List<byte>();
             var transientBytes = new List<byte>();
@@ -26,21 +26,45 @@ namespace Tdx.Net.Serialization
         /// <param name="property"></param>
         /// <param name="map"></param>
         /// <returns></returns>
-        public byte[] GetPropertyBytes(TdxProperty property, TdxMap map)
+        public static byte[] GetPropertyBytes(TdxProperty property, TdxMap map)
         {
-            var endBytes = new List<byte>();
+            // property start flag
+            var endBytes = new List<byte>(new byte[]
+            {
+                255,
+                236
+            });
+
+            endBytes.AddRange(GetPropertyHeaderBytes(property, map));
+            endBytes.AddRange(GetPropertyValueBytes(property.Value));
+            
             //var 
-
-            var mapId = map.MapData[property.Name].KeyId;
-
-            var idBytes = BitConverter.GetBytes(mapId);
-
 
         }
 
-        public byte[] GetValueBytes(TdxValue value)
+        public static byte[] GetPropertyHeaderBytes(TdxProperty property, TdxMap map)
+        {
+            var mapId = map.MapData[property.Name].KeyId;
+            
+            //var eBytes = new List<byte>();
+            var tBytes = new List<byte>(BitConverter.GetBytes(mapId));
+
+
+
+            //eBytes.AddRange();
+        }
+
+        public static byte[] GetPropertyValueBytes(TdxValue value)
         {
 
+        }
+
+        public static class TdxValueSerializers
+        {
+            public static byte[] GetIntBytes()
+            {
+
+            }
         }
     }
 }

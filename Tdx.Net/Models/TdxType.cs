@@ -26,7 +26,7 @@ namespace Tdx.Net.Models
         Array,
         Binary,
         Prodedure,
-
+        Null,
         Dynamic,
         //Expression
     }
