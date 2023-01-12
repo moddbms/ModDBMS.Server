@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Buffers.Binary;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,6 +16,9 @@ namespace Tdx.Net.Models
         public static abstract TdxValue FromBytes(byte[] bytes);
     }
 
+    /// <summary>
+    /// Dynamic sized types have a length header, fixed don't
+    /// </summary>
     public abstract class TdxValue : ITdxValue
     {
         public TdxType Type;
@@ -74,7 +79,10 @@ namespace Tdx.Net.Models
                 _ => throw new Exception("[CHANGE EXCEPTION TYPE] Text format not supported, select one of UTF8/UTF32/Unicode")
             };
 
-            bytes.AddRange(BitConverter.GetBytes(stringData.Length));
+            Span<byte> tmpBytes = stackalloc byte[4];
+            BinaryPrimitives.WriteInt32LittleEndian(tmpBytes, stringData.Length);
+
+            bytes.AddRange(tmpBytes.ToArray());
             bytes.AddRange(stringData);
 
             return bytes;
@@ -95,6 +103,8 @@ namespace Tdx.Net.Models
         {
             if (IsNull || Value is null) return NullValue;
 
+            //add value header
+
             var bytes = new List<byte>()
             {
                 0,
@@ -113,7 +123,11 @@ namespace Tdx.Net.Models
             if (IsNull || Value is null) return NullValue;
 
             var bytes = ValueHeader;
-            bytes.AddRange(BitConverter.GetBytes(Value.Value));
+
+            Span<byte> tmpBytes = stackalloc byte[2];
+            BinaryPrimitives.WriteInt16LittleEndian(tmpBytes, Value.Value);
+
+            bytes.AddRange(tmpBytes.ToArray());
             
             return bytes;
         }
@@ -126,7 +140,11 @@ namespace Tdx.Net.Models
             if (IsNull || Value is null) return NullValue;
 
             var bytes = ValueHeader;
-            bytes.AddRange(BitConverter.GetBytes(Value.Value));
+
+            Span<byte> tmpBytes = stackalloc byte[2];
+            BinaryPrimitives.WriteUInt16LittleEndian(tmpBytes, Value.Value);
+
+            bytes.AddRange(tmpBytes.ToArray());
 
             return bytes;
         }
@@ -140,7 +158,11 @@ namespace Tdx.Net.Models
             if (IsNull || Value is null) return NullValue;
 
             var bytes = ValueHeader;
-            bytes.AddRange(BitConverter.GetBytes(Value.Value));
+
+            Span<byte> tmpBytes = stackalloc byte[4];
+            BinaryPrimitives.WriteInt32LittleEndian(tmpBytes, Value.Value);
+
+            bytes.AddRange(tmpBytes.ToArray());
 
             return bytes;
         }
@@ -154,7 +176,11 @@ namespace Tdx.Net.Models
             if (IsNull || Value is null) return NullValue;
 
             var bytes = ValueHeader;
-            bytes.AddRange(BitConverter.GetBytes(Value.Value));
+
+            Span<byte> tmpBytes = stackalloc byte[4];
+            BinaryPrimitives.WriteUInt32LittleEndian(tmpBytes, Value.Value);
+
+            bytes.AddRange(tmpBytes.ToArray());
 
             return bytes;
         }
@@ -168,7 +194,11 @@ namespace Tdx.Net.Models
             if (IsNull || Value is null) return NullValue;
 
             var bytes = ValueHeader;
-            bytes.AddRange(BitConverter.GetBytes(Value.Value));
+
+            Span<byte> tmpBytes = stackalloc byte[8];
+            BinaryPrimitives.WriteInt64LittleEndian(tmpBytes, Value.Value);
+
+            bytes.AddRange(tmpBytes.ToArray());
 
             return bytes;
         }
@@ -181,7 +211,11 @@ namespace Tdx.Net.Models
             if (IsNull || Value is null) return NullValue;
 
             var bytes = ValueHeader;
-            bytes.AddRange(BitConverter.GetBytes(Value.Value));
+
+            Span<byte> tmpBytes = stackalloc byte[8];
+            BinaryPrimitives.WriteUInt64LittleEndian(tmpBytes, Value.Value);
+            
+            bytes.AddRange(tmpBytes.ToArray());
 
             return bytes;
         }
@@ -210,8 +244,113 @@ namespace Tdx.Net.Models
 
             var bytes = ValueHeader;
             var stringData = Encoding.ASCII.GetBytes(Value.Value.ToString());
-            bytes.AddRange(BitConverter.GetBytes(stringData.Length));
+
+
+            Span<byte> tmpBytes = stackalloc byte[8];
+            BinaryPrimitives.WriteInt32LittleEndian(tmpBytes, stringData.Length);
+
+            bytes.AddRange(tmpBytes.ToArray());
             bytes.AddRange(stringData);
+
+            return bytes;
+        }
+    }
+
+    public sealed class TdxFloat32Value : TdxValue
+    {
+        public float? Value;
+        public override IEnumerable<byte> GetBytes()
+        {
+            if (IsNull || Value is null) return NullValue;
+
+            var bytes = ValueHeader;
+
+            Span<byte> tmpBytes = stackalloc byte[4];
+            BinaryPrimitives.WriteSingleLittleEndian(tmpBytes, Value.Value);
+
+            bytes.AddRange(tmpBytes.ToArray());
+
+            return bytes;
+        }
+    }
+    public sealed class TdxFloat64Value : TdxValue
+    {
+        public double? Value;
+        public override IEnumerable<byte> GetBytes()
+        {
+            if (IsNull || Value is null) return NullValue;
+
+            var bytes = ValueHeader;
+
+            Span<byte> tmpBytes = stackalloc byte[8];
+            BinaryPrimitives.WriteDoubleLittleEndian(tmpBytes, Value.Value);
+
+            bytes.AddRange(tmpBytes.ToArray());
+
+            return bytes;
+        }
+    }
+    public sealed class TdxScientificValue : TdxValue
+    {
+        public string? Value;
+        public override IEnumerable<byte> GetBytes()
+        {
+            if (IsNull || Value is null) return NullValue;
+
+            var bytes = ValueHeader;
+            var stringData = Encoding.UTF8.GetBytes(Value);
+
+            Span<byte> tmpBytes = stackalloc byte[4];
+            BinaryPrimitives.WriteInt32LittleEndian(tmpBytes, stringData.Length);
+
+            bytes.AddRange(tmpBytes.ToArray());
+            bytes.AddRange(stringData);
+
+            return bytes;
+        }
+    }
+
+    //public sealed class TdxDecimal128Value : TdxValue
+    //{
+    //    public decimal? Value;
+    //    public override IEnumerable<byte> GetBytes()
+    //    {
+    //        if (IsNull || Value is null) return NullValue;
+
+    //        var bytes = ValueHeader;
+    //        var val = Value.Value;
+    //        bytes.AddRange(MemoryMarshal.AsBytes(new Span<decimal>(ref val)).ToArray());
+
+    //        //Span<int> values = stackalloc int[4];
+    //        //decimal.GetBits(Value.Value, values);
+
+    //        //foreach (var value in values)
+    //        //    bytes.AddRange(BitConverter.GetBytes(value));
+
+    //        return bytes;
+    //    }
+    //}
+
+    public sealed class TdxDecimal128Value : TdxValue
+    {
+        public decimal? Value;
+        public override IEnumerable<byte> GetBytes()
+        {
+            if (IsNull || Value is null) return NullValue;
+
+            var bytes = ValueHeader;
+            //var val = Value.Value;
+            //bytes.AddRange(MemoryMarshal.AsBytes(new Span<decimal>(ref val)).ToArray());
+
+            Span<int> values = stackalloc int[4];
+            decimal.GetBits(Value.Value, values);
+
+            Span<byte> tmpSpan = stackalloc byte[4];
+            foreach (var value in values)
+            {
+                BinaryPrimitives.WriteInt32LittleEndian(tmpSpan, value);
+                bytes.AddRange(tmpSpan.ToArray());
+            }
 
             return bytes;
         }

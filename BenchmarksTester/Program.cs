@@ -1,6 +1,7 @@
 ﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Running;
 using Microsoft.Diagnostics.Runtime;
+using Tdx.Net.Models;
 
 namespace BenchmarksTester
 {
@@ -8,34 +9,51 @@ namespace BenchmarksTester
     {
         static async Task Main(string[] args)
         {
-            int test = int.MaxValue;
-
-            BitConverter.GetBytes(test).ToList().ForEach(x => Console.Write(x + ","));
+            //TdxDecimal128Value _native = new TdxDecimal128Value()
+            //{
+            //    Type = TdxType.Decimal128,
+            //    IsNull = false,
+            //    Value = 956003.3922m
+            //};
+            //TdxVirtualDecimal128Value _virtual = new TdxVirtualDecimal128Value()
+            //{
+            //    Type = TdxType.Decimal128,
+            //    IsNull = false,
+            //    Value = 956003.3922m
+            //};
+            //Console.WriteLine($"VIRTUAL:");
+            //_virtual.GetBytes().ToList().ForEach(x=>Console.Write(x + ","));
             //Console.WriteLine();
+            //Console.WriteLine($"NATIVE:");
+            //_native.GetBytes().ToList().ForEach(x => Console.Write(x + ","));
+
+            BenchmarkRunner.Run<BenchTasks>();
 
             await Task.Delay(-1);
-
-            //BenchmarkRunner.Run<BenchTasks>();
         }
     }
 
     public class BenchTasks
     {
         [Benchmark]
-        public void StackTest()
+        public void SingleAdd()
         {
-            //Span<MyStruct> span = stackalloc MyStruct[] { new MyStruct() };
-            var item = new MyStruct();
+            Span<byte> SPAN = stackalloc byte[12];
+            List<byte> LIST = new();
 
-            var value = item.Value;
+            foreach (var item in SPAN)
+            {
+                LIST.Add(item);
+            }
         }
 
         [Benchmark]
-        public void HeapTest()
+        public void AddRange()
         {
-            var item = new MyClass();
+            Span<byte> SPAN = stackalloc byte[12];
+            List<byte> LIST = new();
 
-            var value = item.Value;
+            LIST.AddRange(SPAN.ToArray());
         }
     }
 

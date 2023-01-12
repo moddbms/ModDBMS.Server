@@ -18,6 +18,8 @@ namespace Tdx.Net.Serialization
             {
                 transientBytes.AddRange(GetPropertyBytes(property.Value, map));
             }
+
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -40,6 +42,7 @@ namespace Tdx.Net.Serialization
             
             //var 
 
+            throw new NotImplementedException();
         }
 
         public static byte[] GetPropertyHeaderBytes(TdxProperty property, TdxMap map)
@@ -50,6 +53,7 @@ namespace Tdx.Net.Serialization
             var tBytes = new List<byte>(BitConverter.GetBytes(mapId));
 
 
+            throw new NotImplementedException();
 
             //eBytes.AddRange();
         }
@@ -57,13 +61,14 @@ namespace Tdx.Net.Serialization
         public static byte[] GetPropertyValueBytes(TdxValue value)
         {
 
+            throw new NotImplementedException();
         }
 
         public static class TdxValueSerializers
         {
             public static byte[] GetIntBytes()
             {
-
+                throw new NotImplementedException();
             }
         }
     }

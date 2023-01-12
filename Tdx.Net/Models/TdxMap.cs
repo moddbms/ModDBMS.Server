@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Tdx.Net.Models
 {
-    internal class TdxMap
+    public class TdxMap
     {
         public Dictionary<string, TdxMapData> MapData;
     }
